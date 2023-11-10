@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 
 public class StringCalculator {
@@ -44,6 +45,8 @@ public class StringCalculator {
         String[] numArr = numbers.split(regex);
 
         int res = 0;
+        List<Integer> negativeNumbers = new ArrayList<>();
+
         for (String num : numArr) {
             num = num.trim();
 
@@ -53,11 +56,19 @@ public class StringCalculator {
 
             try {
                 int x = Integer.parseInt(num);
+                if (x < 0) {
+                    negativeNumbers.add(x);
+                }
                 res += x;
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("помилка: недійсний рядок");
             }
         }
+
+        if (!negativeNumbers.isEmpty()) {
+            throw new IllegalArgumentException("Помилка: від'ємні числа не дозволені: " + negativeNumbers);
+        }
+
         return res;
     }
 

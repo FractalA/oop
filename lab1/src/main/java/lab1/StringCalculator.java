@@ -58,15 +58,16 @@ public class StringCalculator {
                 int x = Integer.parseInt(num);
                 if (x < 0) {
                     negativeNumbers.add(x);
+                } else if (x <= 1000) {
+                    res += x;
                 }
-                res += x;
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("помилка: недійсний рядок");
             }
         }
 
         if (!negativeNumbers.isEmpty()) {
-            throw new IllegalArgumentException("Помилка: від'ємні числа не дозволені: " + negativeNumbers);
+            throw new IllegalArgumentException("Помилка: отрицательні числа не допускаються: " + negativeNumbers);
         }
 
         return res;

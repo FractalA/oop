@@ -1,5 +1,7 @@
 package lab1;
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class StringCalculator {
@@ -8,11 +10,22 @@ public class StringCalculator {
             return 0;
         }
 
-        if (numbers.startsWith(",") || numbers.endsWith(",")) {
-            throw new IllegalArgumentException("помилка: недійсний рядок");
+        List<String> delimiters = Arrays.asList(",", "\\n");
+
+        for (String delimiter : delimiters) {
+            if (numbers.startsWith(delimiter)) {
+                throw new IllegalArgumentException("помилка: недійсний рядок");
+            }
         }
 
-        String[] numArr = numbers.split(",");
+        for (String delimiter : delimiters) {
+            if (numbers.endsWith(delimiter)) {
+                throw new IllegalArgumentException("помилка: недійсний рядок");
+            }
+        }
+
+        String regex = String.join("|", delimiters) + "|\\\\n";
+        String[] numArr = numbers.split(regex);
 
         int res = 0;
         for (String num : numArr) {

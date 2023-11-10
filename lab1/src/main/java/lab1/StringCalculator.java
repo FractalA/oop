@@ -7,15 +7,21 @@ public class StringCalculator {
         if (numbers.isEmpty()) {
             return 0;
         }
-        String[] numArr = numbers.split(",");
 
-        if (numArr.length > 2) {
+        if (numbers.startsWith(",") || numbers.endsWith(",")) {
             throw new IllegalArgumentException("помилка: недійсний рядок");
         }
+
+        String[] numArr = numbers.split(",");
 
         int res = 0;
         for (String num : numArr) {
             num = num.trim();
+
+            if (num.isEmpty()) {
+                throw new IllegalArgumentException("помилка: недійсний рядок");
+            }
+
             try {
                 int x = Integer.parseInt(num);
                 res += x;

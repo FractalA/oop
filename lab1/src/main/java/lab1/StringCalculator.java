@@ -2,6 +2,8 @@ package lab1;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class StringCalculator {
@@ -25,6 +27,20 @@ public class StringCalculator {
         }
 
         String regex = String.join("|", delimiters) + "|\\\\n";
+
+        if (numbers.startsWith("//")) {
+            Pattern pattern = Pattern.compile("//(.*?)\\\\n");
+            Matcher matcher = pattern.matcher(numbers);
+            if (matcher.find()) {
+                String customDelimiter = matcher.group(1);
+                if (customDelimiter.length() != 1 || numbers.startsWith(customDelimiter) || numbers.endsWith(customDelimiter)) {
+                    throw new IllegalArgumentException("Помилка: недійсний кастомний роздільник.");
+                }
+                regex = Pattern.quote(customDelimiter) + "|\\\\n|,";
+                numbers = numbers.substring(matcher.end());
+            }
+        }
+
         String[] numArr = numbers.split(regex);
 
         int res = 0;
